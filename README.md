@@ -15,12 +15,13 @@ Responsive React, TypeScript and Tailwind business website for Duopole Fresh Imp
 
 - The supplied contact information is configured in `src/config/business.ts`: Abubakar Towfiq, +41 79 368 05 70, duopole.imports@gmail.com, Lausanne, Switzerland.
 - The intended domain `https://dupoleimports.com` is configured for SEO and deployment output. This configuration does not mean the domain is connected or that the site is live. Verify DNS, TLS, hosting and route fallback before launch.
+- Vercel's SPA rewrite is configured in `vercel.json`, so direct requests and reloads of client-side routes serve the app entry point. Redeploy the project on Vercel after changing deployment configuration.
 - The contact form uses `@formspree/react` with form ID `xeaeylry`. Test successful and failed submissions before launch, and confirm the Formspree account's notification and spam-protection settings.
 - Configure server/provider-side validation, spam prevention, access controls, data retention and any required data-processing terms. The client-side honeypot is only a basic spam signal, not a substitute for server protection.
 - Review `src/pages/Privacy.tsx` against the real legal entity, jurisdiction, hosting and form provider, actual cookies/logging, retention period and applicable law. Obtain appropriate legal review; the draft is not a certification or legal advice.
 - The uploaded logo at `public/logo.jpg` is used in the shared header and footer and as the favicon/share image.
 - The provided produce photos are currently visible in the conversation but are not available as files under `public/`. Add them there with the expected filenames to replace the explicit local-asset fallbacks. The screenshot divider expects `Screenshot 2026-10-21 at 12.44.17.png`.
-- Add the website's production URL to the hosting provider and verify SPA route fallback behavior for `/about`, `/products`, `/partnerships`, `/contact` and `/privacy`.
+- Add the website's production URL to Vercel and verify SPA route fallback behavior for `/about`, `/products`, `/partnerships`, `/contact` and `/privacy`.
 
 ## Remaining owner / launch confirmations
 
