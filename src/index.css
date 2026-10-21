@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	font-family: 'DM Sans', sans-serif;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	color: #24332B;
+	background: #ffff;
+	font-optical-sizing: auto;
+}
+
+html,
+body {
+	min-width: 320px;
+	overflow-x: clip;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: 'DM Sans', sans-serif;
+	color: #24332B;
+	background: #fff;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	font-family: 'Manrope', 'DM Sans', sans-serif;
+	font-style: normal;
+	letter-spacing: -0.025em;
+}
+
+img {
+	display: block;
+}
+
+::selection {
+	color: #fff;
+	background: #176B45;
+}
+
+.asset-fallback {
+	display: grid;
+	min-width: 0;
+	place-items: center;
+	overflow: hidden;
+	border: 1px solid rgb(23 107 69 / 12%);
+	background:
+		radial-gradient(ellipse at 70% 35%, rgb(167 201 87 / 22%), transparent 40%),
+		linear-gradient(135deg, #f1f5ec, #e6eee1);
+	color: #176b45;
+}
+
+.asset-fallback__content {
+	display: grid;
+	justify-items: center;
+	gap: 0.5rem;
+	padding: 1.5rem;
+	text-align: center;
+}
+
+.asset-fallback__icon {
+	width: 2.5rem;
+	height: 2.5rem;
+	opacity: 0.7;
+}
+
+.asset-fallback__label {
+	color: #24332b;
+	font-size: 0.8rem;
+	font-weight: 700;
+}
+
+.asset-fallback__filename {
+	overflow-wrap: anywhere;
+	color: #24332b99;
+	font-size: 0.7rem;
+}
+
+:focus-visible {
+	outline: 3px solid #A7C957;
+	outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
