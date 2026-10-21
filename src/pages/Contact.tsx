@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useForm, ValidationError } from '@formspree/react'
 import SEO from '../components/SEO'
 import AssetImage from '../components/AssetImage'
 import { businessDetails, displayOrPlaceholder, emailHref, whatsappHref } from '../config/business'
@@ -23,9 +24,7 @@ export default function Contact() {
     message: searchParams.get('message') || '', privacyAck: false, website: '',
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [status, setStatus] = useState<'idle' | 'success' | 'demo'>('idle')
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submissionError, setSubmissionError] = useState('')
+  const [formState, submitToFormspree, resetForm] = useForm('xeaeylry')
   const whatsappLink = whatsappHref()
 
   useEffect(() => {
@@ -55,7 +54,7 @@ export default function Contact() {
     if (errors[name]) setErrors(prev => { const n = { ...prev }; delete n[name]; return n })
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     const errs = validate()
     if (Object.keys(errs).length > 0) { setErrors(errs); return }
@@ -64,38 +63,8 @@ export default function Contact() {
     // should also use server-side validation and provider-side spam protection.
     if (form.website) return
 
-    const endpoint = import.meta.env.VITE_CONTACT_FORM_ENDPOINT?.trim()
-    setIsSubmitting(true)
-    setSubmissionError('')
-
-    if (!endpoint) {
-      setStatus('demo')
-      setIsSubmitting(false)
-      return
-    }
-
-    try {
-      const submission = {
-        name: form.name,
-        company: form.company,
-        email: form.email,
-        country: form.country,
-        enquiryType: form.enquiryType,
-        volume: form.volume,
-        message: form.message,
-      }
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(submission),
-      })
-      if (!response.ok) throw new Error('The enquiry service returned an error.')
-      setStatus('success')
-    } catch {
-      setSubmissionError('Your enquiry could not be sent. Please try again later; the site owner should confirm that the form endpoint is configured correctly.')
-    } finally {
-      setIsSubmitting(false)
-    }
+    setErrors({})
+    await submitToFormspree(e)
   }
 
   const inputClass = (field: string) =>
@@ -161,43 +130,22 @@ export default function Contact() {
 
               <div className="bg-green-50 border border-green-200 rounded-xl p-5">
                 <p className="text-sm font-semibold text-green-800 mb-1">Enquiry service status</p>
-                <p className="text-xs leading-5 text-green-700">The contact form is not connected to a submission service yet. Use the WhatsApp or email options above to reach Duopole directly.</p>
+                <p className="text-xs leading-5 text-green-700">The enquiry form is connected to Formspree and will submit your message securely.</p>
               </div>
             </div>
 
             {/* Form */}
             <div className="lg:col-span-3">
               <div className="bg-white rounded-2xl p-8 shadow-sm">
-                {status === 'success' ? (
+                {formState.succeeded ? (
                   <div className="text-center py-12" role="status" aria-live="polite">
                     <div className="w-16 h-16 bg-green-100 text-green-800 rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
                       <span className="text-3xl">✓</span>
                     </div>
                     <h3 className="text-xl font-bold text-charcoal mb-3">Enquiry sent</h3>
                     <p className="text-charcoal/70 text-sm leading-relaxed mb-6 max-w-md mx-auto">Thank you for getting in touch. Your enquiry has been submitted successfully.</p>
-                    <button type="button" onClick={() => { setStatus('idle'); setForm(f => ({ ...f, message: '' })) }} className="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
+                    <button type="button" onClick={() => { resetForm(); setForm(f => ({ ...f, message: '' })) }} className="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-dark transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary">
                       Send another enquiry
-                    </button>
-                  </div>
-                ) : status === 'demo' ? (
-                  <div className="text-center py-12">
-                    <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-3xl">⚠️</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-charcoal mb-3">Demonstration Mode</h3>
-                    <p className="text-charcoal/70 text-sm leading-relaxed mb-6 max-w-md mx-auto">
-                      Your form details are valid, but this website is not connected to an email service yet. Nothing has been sent or stored. You can email <a className="font-semibold underline" href={`mailto:${businessDetails.email}`}>{businessDetails.email}</a> directly instead.
-                    </p>
-                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 text-left text-sm text-amber-800 mb-6">
-                      <p className="font-semibold mb-2">Before launch, connect and test a form endpoint:</p>
-                      <ul className="list-disc list-inside space-y-1">
-                        <li>Set <code>VITE_CONTACT_FORM_ENDPOINT</code> to a trusted form service or server endpoint.</li>
-                        <li>Enable provider-side spam controls and validate submissions on the server.</li>
-                        <li>Update the Privacy Policy with the chosen provider and retention period.</li>
-                      </ul>
-                    </div>
-                    <button onClick={() => setStatus('idle')} className="bg-primary text-white px-6 py-2.5 rounded-lg text-sm font-semibold hover:bg-primary-dark transition-colors">
-                      Edit Enquiry
                     </button>
                   </div>
                 ) : (
@@ -206,14 +154,15 @@ export default function Contact() {
                     {Object.keys(errors).length > 0 && <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">Please review the highlighted fields and complete the required information.</p>}
                     <div className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
                       <label htmlFor="website">Leave this field empty</label>
-                      <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
+                      <input id="website" name="_gotcha" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
                     </div>
-                    {submissionError && <p role="alert" className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">{submissionError}</p>}
+                    <ValidationError errors={formState.errors} className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800" />
                     <div className="grid sm:grid-cols-2 gap-5">
                       <div>
                         <label className="block text-xs font-semibold text-charcoal mb-1.5" htmlFor="name">Full Name *</label>
                         <input id="name" name="name" type="text" autoComplete="name" required value={form.name} onChange={handleChange} className={inputClass('name')} placeholder="Your full name" aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'name-error' : undefined} />
                         {errors.name && <p id="name-error" className="text-red-600 text-xs mt-1">{errors.name}</p>}
+                        <ValidationError field="name" errors={formState.errors} className="text-red-600 text-xs mt-1" />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-charcoal mb-1.5" htmlFor="company">Company Name</label>
@@ -225,11 +174,13 @@ export default function Contact() {
                         <label className="block text-xs font-semibold text-charcoal mb-1.5" htmlFor="email">Business Email *</label>
                         <input id="email" name="email" type="email" autoComplete="email" required value={form.email} onChange={handleChange} className={inputClass('email')} placeholder="you@company.com" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'email-error' : undefined} />
                         {errors.email && <p id="email-error" className="text-red-600 text-xs mt-1">{errors.email}</p>}
+                        <ValidationError field="email" errors={formState.errors} className="text-red-600 text-xs mt-1" />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold text-charcoal mb-1.5" htmlFor="country">Country *</label>
                         <input id="country" name="country" type="text" autoComplete="country-name" required value={form.country} onChange={handleChange} className={inputClass('country')} placeholder="Your country" aria-invalid={Boolean(errors.country)} aria-describedby={errors.country ? 'country-error' : undefined} />
                         {errors.country && <p id="country-error" className="text-red-600 text-xs mt-1">{errors.country}</p>}
+                        <ValidationError field="country" errors={formState.errors} className="text-red-600 text-xs mt-1" />
                       </div>
                     </div>
                     <div>
@@ -240,6 +191,7 @@ export default function Contact() {
                         ))}
                       </select>
                       {errors.enquiryType && <p id="enquiryType-error" className="text-red-600 text-xs mt-1">{errors.enquiryType}</p>}
+                      <ValidationError field="enquiryType" errors={formState.errors} className="text-red-600 text-xs mt-1" />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-charcoal mb-1.5" htmlFor="volume">Estimated volume / requirements</label>
@@ -249,6 +201,7 @@ export default function Contact() {
                       <label className="block text-xs font-semibold text-charcoal mb-1.5" htmlFor="message">Message *</label>
                       <textarea id="message" name="message" rows={5} required value={form.message} onChange={handleChange} className={inputClass('message')} placeholder="Briefly describe your interest or requirements…" aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? 'message-error' : undefined} />
                       {errors.message && <p id="message-error" className="text-red-600 text-xs mt-1">{errors.message}</p>}
+                      <ValidationError field="message" errors={formState.errors} className="text-red-600 text-xs mt-1" />
                     </div>
                     <div>
                       <label className="flex items-start gap-3 cursor-pointer">
@@ -260,9 +213,10 @@ export default function Contact() {
                         </span>
                       </label>
                       {errors.privacyAck && <p id="privacyAck-error" className="text-red-600 text-xs mt-1">{errors.privacyAck}</p>}
+                      <ValidationError field="privacyAck" errors={formState.errors} className="text-red-600 text-xs mt-1" />
                     </div>
-                    <button type="submit" disabled={isSubmitting} className="w-full bg-primary text-white py-4 rounded-lg font-semibold hover:bg-primary-dark disabled:cursor-wait disabled:opacity-70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary text-sm">
-                      {isSubmitting ? 'Sending…' : 'Send Enquiry →'}
+                    <button type="submit" disabled={formState.submitting} className="w-full bg-primary text-white py-4 rounded-lg font-semibold hover:bg-primary-dark disabled:cursor-wait disabled:opacity-70 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary text-sm">
+                      {formState.submitting ? 'Sending…' : 'Send Enquiry →'}
                     </button>
                     <p className="text-xs text-charcoal/40 text-center">
                       Your details are used only to respond to this enquiry. Please review our Privacy Policy for more information.

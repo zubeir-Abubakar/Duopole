@@ -12,11 +12,11 @@ export default function Privacy() {
     },
     {
       title: '2. Information We Collect',
-      content: `The contact form requests your name, business name (optional), business email, enquiry type, message, and privacy acknowledgement. The form is currently in demonstration mode: submissions are not sent to or stored by Duopole. If a form service is enabled, its actual processing and data collected must be confirmed and this policy updated before launch.`,
+      content: `The contact form requests your name, business name (optional), business email, country, enquiry type, estimated volume or requirements (optional), message, and privacy acknowledgement. The form is configured to submit enquiries to Formspree. Confirm the provider's actual processing, data collected and applicable terms before publication.`,
     },
     {
       title: '3. How We Use Your Information',
-      content: `If a working enquiry service is activated, information will be used to respond to your enquiry, evaluate the stated commercial opportunity and communicate with you about relevant fresh-produce business matters. It will not be used for automated profiling or advertising.`,
+      content: `Information submitted through the contact form will be used to respond to your enquiry, evaluate the stated commercial opportunity and communicate with you about relevant fresh-produce business matters. It will not be used for automated profiling or advertising.`,
     },
     {
       title: '4. Legal Basis for Processing',
@@ -24,11 +24,11 @@ export default function Privacy() {
     },
     {
       title: '5. Data Sharing',
-      content: `No form service is configured by default. Before enabling submissions, identify the selected provider, its processing terms and data location here. If relevant to your enquiry, information may be shared with a prospective supply or trade partner only where appropriate and with your knowledge. Personal information is not intended to be sold or shared for third-party advertising.`,
+      content: `Form submissions are configured to be processed through Formspree. Review its processing terms and confirm its data location before publication. If relevant to your enquiry, information may be shared with a prospective supply or trade partner only where appropriate and with your knowledge. Personal information is not intended to be sold or shared for third-party advertising.`,
     },
     {
       title: '6. Data Retention',
-      content: `A specific retention period must be selected and published before the enquiry service is activated. Once set, enquiry data should be retained only as long as necessary for its stated purpose and applicable record-keeping obligations. You may request deletion, subject to any legal retention requirements.`,
+      content: `Confirm and publish the retention period for enquiry data held by Duopole and Formspree. Enquiry data should be retained only as long as necessary for its stated purpose and applicable record-keeping obligations. You may request deletion, subject to any legal retention requirements.`,
     },
     {
       title: '7. Your Rights',
@@ -70,7 +70,7 @@ export default function Privacy() {
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-10">
             <p className="text-sm font-semibold text-amber-800 mb-1">⚠️ Review before publication</p>
             <p className="text-sm text-amber-700">
-              Before publication, confirm the responsible legal entity, jurisdiction, privacy contact, form provider, retention period, hosting logs and actual cookie use. The form does not send data until an endpoint is configured. This draft has not been legally reviewed and does not certify compliance.
+              Before publication, confirm the responsible legal entity, jurisdiction, privacy contact, Formspree processing terms and data location, retention period, hosting logs and actual cookie use. This draft has not been legally reviewed and does not certify compliance.
             </p>
           </div>
 

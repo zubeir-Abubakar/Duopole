@@ -60,10 +60,19 @@ test.describe('Public website routes', () => {
     await page.goto('/contact')
     await page.getByRole('button', { name: /send enquiry/i }).click()
     await expect(page.getByRole('alert').first()).toContainText('review the highlighted fields')
-    await expect(page.getByText('The contact form is not connected to a submission service yet.')).toBeVisible()
+    await expect(page.getByText('The enquiry form is connected to Formspree and will submit your message securely.')).toBeVisible()
   })
 
-  test('valid contact details produce a clearly labeled demo state when no endpoint is configured', async ({ page }) => {
+  test('valid contact details are submitted to the configured form endpoint', async ({ page }) => {
+    await page.route('https://formspree.io/f/xeaeylry', async (route) => {
+      const formData = route.request().postData() || ''
+      expect(formData).toContain('name="name"')
+      expect(formData).toContain('Playwright Buyer')
+      expect(formData).toContain('buyer@example.test')
+      expect(formData).toContain('Switzerland')
+      expect(formData).toContain('buying-avocados')
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ next: 'https://formspree.io/thanks' }) })
+    })
     await page.goto('/contact')
     await page.getByLabel('Full Name *').fill('Playwright Buyer')
     await page.getByLabel('Company Name').fill('Example Produce Ltd')
@@ -74,8 +83,7 @@ test.describe('Public website routes', () => {
     await page.getByLabel('Message *').fill('We would like to discuss Kenyan avocado sourcing requirements.')
     await page.getByLabel(/I have read and understood the/).check()
     await page.getByRole('button', { name: /send enquiry/i }).click()
-    await expect(page.getByRole('heading', { name: 'Demonstration Mode' })).toBeVisible()
-    await expect(page.getByText(/Nothing has been sent or stored/)).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Enquiry sent' })).toBeVisible()
   })
 
   test('all local images load and layouts do not overflow horizontally', async ({ page }) => {
