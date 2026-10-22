@@ -128,10 +128,6 @@ export default function Contact() {
                 </a>
               </div>
 
-              <div className="bg-green-50 border border-green-200 rounded-xl p-5">
-                <p className="text-sm font-semibold text-green-800 mb-1">Enquiry service status</p>
-                <p className="text-xs leading-5 text-green-700">The enquiry form is connected to Formspree and will submit your message securely.</p>
-              </div>
             </div>
 
             {/* Form */}
@@ -231,4 +227,3 @@ export default function Contact() {
     </>
   )
 }
-

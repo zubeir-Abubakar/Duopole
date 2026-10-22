@@ -60,7 +60,7 @@ test.describe('Public website routes', () => {
     await page.goto('/contact')
     await page.getByRole('button', { name: /send enquiry/i }).click()
     await expect(page.getByRole('alert').first()).toContainText('review the highlighted fields')
-    await expect(page.getByText('The enquiry form is connected to Formspree and will submit your message securely.')).toBeVisible()
+    await expect(page.getByText('The enquiry form is connected to Formspree and will submit your message securely.')).toHaveCount(0)
   })
 
   test('valid contact details are submitted to the configured form endpoint', async ({ page }) => {
