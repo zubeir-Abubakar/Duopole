@@ -1,14 +1,16 @@
 import SEO from '../components/SEO'
 import AssetImage from '../components/AssetImage'
 import { businessDetails, displayOrPlaceholder } from '../config/business'
+import { useLanguage } from '../i18n'
 
 export default function Privacy() {
-  const privacyContact = displayOrPlaceholder(businessDetails.privacyEmail || businessDetails.email, 'Add verified privacy contact email before launch')
-  const legalEntity = displayOrPlaceholder(businessDetails.legalEntity, 'Legal business entity and jurisdiction to be confirmed')
+  const { translate: t } = useLanguage()
+  const privacyContact = displayOrPlaceholder(businessDetails.privacyEmail || businessDetails.email, t('Add verified privacy contact email before launch'))
+  const legalEntity = displayOrPlaceholder(businessDetails.legalEntity, t('Legal business entity and jurisdiction to be confirmed'))
   const sections = [
     {
       title: '1. Who We Are',
-      content: `Duopole Fresh Imports is a developing fresh-produce sourcing and market-development initiative. The responsible legal entity and jurisdiction must be confirmed before publication: ${legalEntity}. For privacy enquiries, contact ${privacyContact}.`,
+      content: 'Duopole Fresh Imports is a developing fresh-produce sourcing and market-development initiative. The responsible legal entity and jurisdiction must be confirmed before publication: {legalEntity}. For privacy enquiries, contact {privacyContact}.',
     },
     {
       title: '2. Information We Collect',
@@ -32,7 +34,7 @@ export default function Privacy() {
     },
     {
       title: '7. Your Rights',
-      content: `Depending on applicable law, you may have rights to request access, correction or deletion, object to or restrict processing, withdraw consent, or request portability. Contact ${privacyContact} to raise a privacy request. The available rights depend on your circumstances and location.`,
+      content: 'Depending on applicable law, you may have rights to request access, correction or deletion, object to or restrict processing, withdraw consent, or request portability. Contact {privacyContact} to raise a privacy request. The available rights depend on your circumstances and location.',
     },
     {
       title: '8. Cookies and Analytics',
@@ -48,36 +50,38 @@ export default function Privacy() {
     },
     {
       title: '11. Contact',
-      content: `For privacy questions, contact ${privacyContact}. The responsible legal entity and contact must be verified before this policy is published.`,
+      content: 'For privacy questions, contact {privacyContact}. The responsible legal entity and contact must be verified before this policy is published.',
     },
   ]
 
   return (
     <>
-      <SEO title="Privacy Policy" description="Read how Duopole Fresh Imports handles information shared through business enquiries, including data use, retention, security and privacy contacts." />
+      <SEO title={t('Privacy Policy')} description={t('Read how Duopole Fresh Imports handles information shared through business enquiries, including data use, retention, security and privacy contacts.')} />
       <section className="relative isolate overflow-hidden bg-primary-dark pt-32 pb-20 text-white">
         <AssetImage src="/images/avocado-fields.png" alt="" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-20" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <span className="inline-block bg-accent/20 text-accent font-semibold text-sm px-4 py-1.5 rounded-full mb-6">Legal</span>
-            <h1 className="text-4xl font-bold mb-4">Privacy Policy</h1>
-            <p className="text-gray-300">Draft for owner and legal review before publication.</p>
+            <span className="inline-block bg-accent/20 text-accent font-semibold text-sm px-4 py-1.5 rounded-full mb-6">{t('Legal')}</span>
+            <h1 className="text-4xl font-bold mb-4">{t('Privacy Policy')}</h1>
+            <p className="text-gray-300">{t('Draft for owner and legal review before publication.')}</p>
           </div>
         </div>
       </section>
       <section className="py-16 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 mb-10">
-            <p className="text-sm font-semibold text-amber-800 mb-1">⚠️ Review before publication</p>
+            <p className="text-sm font-semibold text-amber-800 mb-1">⚠️ {t('Review before publication')}</p>
             <p className="text-sm text-amber-700">
-              Before publication, confirm the responsible legal entity, jurisdiction, privacy contact, Formspree processing terms and data location, retention period, hosting logs and actual cookie use. This draft has not been legally reviewed and does not certify compliance.
+              {t('Before publication, confirm the responsible legal entity, jurisdiction, privacy contact, Formspree processing terms and data location, retention period, hosting logs and actual cookie use. This draft has not been legally reviewed and does not certify compliance.')}
             </p>
           </div>
 
           {sections.map(({ title, content }) => (
             <div key={title} className="mb-8">
-              <h2 className="text-xl font-bold text-charcoal mb-3">{title}</h2>
-              <p className="text-charcoal/70 leading-relaxed text-sm">{content}</p>
+              <h2 className="text-xl font-bold text-charcoal mb-3">{t(title)}</h2>
+              <p className="text-charcoal/70 leading-relaxed text-sm">
+                {t(content).replace('{legalEntity}', legalEntity).replace('{privacyContact}', privacyContact)}
+              </p>
             </div>
           ))}
         </div>
@@ -85,4 +89,3 @@ export default function Privacy() {
     </>
   )
 }
-

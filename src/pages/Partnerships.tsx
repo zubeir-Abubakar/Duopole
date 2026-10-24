@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import SEO from '../components/SEO'
 import AssetImage from '../components/AssetImage'
+import { useLanguage } from '../i18n'
 
 const partnershipSections = [
   {
@@ -70,25 +71,26 @@ const partnershipSteps = [
 ]
 
 export default function Partnerships() {
+  const { translate: t } = useLanguage()
   return (
     <>
-      <SEO title="Fresh-Produce Partnerships" description="Duopole welcomes discussions with Kenyan growers and exporters, Swiss importers and wholesalers, and international fresh-produce suppliers." />
+      <SEO title={t('Fresh-Produce Partnerships')} description={t('Duopole welcomes discussions with Kenyan growers and exporters, Swiss importers and wholesalers, and international fresh-produce suppliers.')} />
       {/* Hero */}
       <section className="relative isolate overflow-hidden bg-primary-dark pb-16 pt-36 text-white sm:pb-20">
         <div className="absolute inset-0 overflow-hidden">
           <img
             src="/produce-trade-partnership.webp"
-            alt="Business professionals discussing fresh-produce sourcing documents"
+            alt={t('Business professionals discussing fresh-produce sourcing documents')}
             className="h-full w-full object-cover opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#082b20]/90 via-[#082b20]/65 to-[#082b20]/15" />
         </div>
         <div className="relative mx-auto max-w-[1380px] px-5 sm:px-8">
           <div className="max-w-3xl">
-            <span className="mb-5 inline-flex text-xs font-semibold uppercase tracking-[0.2em] text-[#c6e28b]">Partnership opportunities</span>
-            <h1 className="mb-5 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">Let's build valuable fresh-produce partnerships</h1>
+            <span className="mb-5 inline-flex text-xs font-semibold uppercase tracking-[0.2em] text-[#c6e28b]">{t('Partnership opportunities')}</span>
+            <h1 className="mb-5 text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">{t("Let's build valuable fresh-produce partnerships")}</h1>
             <p className="max-w-2xl text-base leading-7 text-white/80 sm:text-lg">
-              We are interested in connecting suppliers with market opportunities and exploring practical commercial arrangements across the fresh-produce supply chain.
+              {t('We are interested in connecting suppliers with market opportunities and exploring practical commercial arrangements across the fresh-produce supply chain.')}
             </p>
           </div>
         </div>
@@ -100,17 +102,17 @@ export default function Partnerships() {
           {partnershipSections.map(({ label, title, img, imgAlt, desc, points }, i) => (
             <div key={label} className={`grid lg:grid-cols-2 gap-16 items-center ${i % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
               <div className={i % 2 === 1 ? 'lg:col-start-2' : ''}>
-                <span className="inline-block bg-primary/10 text-primary font-semibold text-sm px-4 py-1.5 rounded-full mb-4">{label}</span>
-                <h2 className="text-3xl font-bold text-charcoal mb-4">{title}</h2>
-                <p className="text-charcoal/70 leading-relaxed mb-6">{desc}</p>
-                <h3 className="font-semibold text-charcoal mb-3">Potential Collaboration:</h3>
+                <span className="inline-block bg-primary/10 text-primary font-semibold text-sm px-4 py-1.5 rounded-full mb-4">{t(label)}</span>
+                <h2 className="text-3xl font-bold text-charcoal mb-4">{t(title)}</h2>
+                <p className="text-charcoal/70 leading-relaxed mb-6">{t(desc)}</p>
+                <h3 className="font-semibold text-charcoal mb-3">{t('Potential Collaboration:')}</h3>
                 <ul className="space-y-2">
                   {points.map((p) => (
                     <li key={p} className="flex items-start gap-3 text-charcoal/70 text-sm">
                       <span className="mt-1 w-4 h-4 rounded-full bg-accent/30 flex-shrink-0 flex items-center justify-center">
                         <span className="w-2 h-2 rounded-full bg-primary" />
                       </span>
-                      {p}
+                      {t(p)}
                     </li>
                   ))}
                 </ul>
@@ -126,12 +128,12 @@ export default function Partnerships() {
       <section className="bg-[#f8f8f3] py-20 sm:py-24">
         <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-5 sm:px-8 lg:grid-cols-2">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Sourcing and logistics</p>
-            <h2 className="mt-3 text-3xl font-bold text-charcoal sm:text-4xl">Clarity before commitment</h2>
-            <p className="mt-4 text-sm leading-6 text-charcoal/65">Before pursuing an opportunity, the relevant parties should clarify availability, quality specifications, indicative volumes, pricing, shipping responsibilities, documentation, and payment terms.</p>
-            <p className="mt-4 border-l-2 border-accent pl-4 text-xs leading-5 text-charcoal/55">Logistics and import arrangements must be confirmed with the relevant supplier, buyer, importer, and service providers. Duopole does not represent this image as its own facility or transport operation.</p>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">{t('Sourcing and logistics')}</p>
+            <h2 className="mt-3 text-3xl font-bold text-charcoal sm:text-4xl">{t('Clarity before commitment')}</h2>
+            <p className="mt-4 text-sm leading-6 text-charcoal/65">{t('Before pursuing an opportunity, the relevant parties should clarify availability, quality specifications, indicative volumes, pricing, shipping responsibilities, documentation, and payment terms.')}</p>
+            <p className="mt-4 border-l-2 border-accent pl-4 text-xs leading-5 text-charcoal/55">{t('Logistics and import arrangements must be confirmed with the relevant supplier, buyer, importer, and service providers. Duopole does not represent this image as its own facility or transport operation.')}</p>
           </div>
-          <AssetImage src="/images/logistics.png" alt="Illustrative produce logistics facility with refrigerated transport equipment" className="h-72 w-full rounded-xl object-cover sm:h-96" />
+          <AssetImage src="/images/logistics.png" alt={t('Illustrative produce logistics facility with refrigerated transport equipment')} className="h-72 w-full rounded-xl object-cover sm:h-96" />
         </div>
       </section>
 
@@ -139,17 +141,17 @@ export default function Partnerships() {
       <section className="py-24 bg-botanical">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">Commercial Structure</span>
-            <h2 className="mt-3 text-3xl font-bold text-charcoal">Proposed Partnership Models</h2>
+            <span className="text-primary font-semibold text-sm uppercase tracking-wider">{t('Commercial Structure')}</span>
+            <h2 className="mt-3 text-3xl font-bold text-charcoal">{t('Proposed Partnership Models')}</h2>
             <p className="mt-4 text-charcoal/60 max-w-2xl mx-auto">
-              All partnership arrangements are subject to written agreement. No commission rate or exclusive arrangement is assumed without formal confirmation.
+              {t('All partnership arrangements are subject to written agreement. No commission rate or exclusive arrangement is assumed without formal confirmation.')}
             </p>
           </div>
           <div className="grid sm:grid-cols-2 gap-6">
             {partnershipModels.map(({ title, desc }) => (
               <div key={title} className="bg-white rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
-                <h3 className="font-bold text-charcoal mb-3">{title}</h3>
-                <p className="text-charcoal/60 text-sm leading-relaxed">{desc}</p>
+                <h3 className="font-bold text-charcoal mb-3">{t(title)}</h3>
+                <p className="text-charcoal/60 text-sm leading-relaxed">{t(desc)}</p>
               </div>
             ))}
           </div>
@@ -160,8 +162,8 @@ export default function Partnerships() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="text-primary font-semibold text-sm uppercase tracking-wider">Getting Started</span>
-            <h2 className="mt-3 text-3xl font-bold text-charcoal">How a Partnership Can Begin</h2>
+            <span className="text-primary font-semibold text-sm uppercase tracking-wider">{t('Getting Started')}</span>
+            <h2 className="mt-3 text-3xl font-bold text-charcoal">{t('How a Partnership Can Begin')}</h2>
           </div>
           <div className="relative">
             <div className="hidden lg:block absolute top-8 left-0 right-0 h-0.5 bg-gray-200 mx-32" />
@@ -171,8 +173,8 @@ export default function Partnerships() {
                   <div className="w-14 h-14 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4 relative z-10">
                     {n}
                   </div>
-                  <h3 className="font-bold text-charcoal mb-2 text-sm">{title}</h3>
-                  <p className="text-charcoal/60 text-xs leading-relaxed">{desc}</p>
+                  <h3 className="font-bold text-charcoal mb-2 text-sm">{t(title)}</h3>
+                  <p className="text-charcoal/60 text-xs leading-relaxed">{t(desc)}</p>
                 </div>
               ))}
             </div>
@@ -183,19 +185,18 @@ export default function Partnerships() {
       {/* CTA */}
       <section className="py-24 bg-primary-dark text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Propose a Partnership?</h2>
+          <h2 className="text-3xl font-bold mb-6">{t('Ready to Propose a Partnership?')}</h2>
           <p className="text-gray-300 leading-relaxed mb-10 text-lg">
-            Whether you are a farmer, exporter, importer, wholesaler or retailer, we would love to explore how we can work together.
+            {t('Whether you are a farmer, exporter, importer, wholesaler or retailer, we would love to explore how we can work together.')}
           </p>
           <Link
             to="/contact"
             className="inline-block bg-accent text-charcoal px-10 py-4 rounded-lg font-semibold text-lg hover:bg-accent/90 transition-colors"
           >
-            Propose a Partnership →
+            {t('Propose a Partnership →')}
           </Link>
         </div>
       </section>
     </>
   )
 }
-

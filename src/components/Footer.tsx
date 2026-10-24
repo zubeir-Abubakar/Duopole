@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom'
 import BrandMark from './BrandMark'
 import AssetImage from './AssetImage'
 import { businessDetails, whatsappHref } from '../config/business'
+import { useLanguage } from '../i18n'
 
 export default function Footer() {
+  const { translate: t } = useLanguage()
   const year = new Date().getFullYear()
   const whatsappLink = whatsappHref()
   return (
@@ -22,16 +24,16 @@ export default function Footer() {
               <BrandMark />
             </div>
             <p className="text-sm text-gray-300 leading-relaxed max-w-sm">
-              Duopole Fresh Imports is a developing fresh-produce sourcing and market-development business connecting producers and suppliers with potential buyers in Switzerland.
+              {t('Duopole Fresh Imports is a developing fresh-produce sourcing and market-development business connecting producers and suppliers with potential buyers in Switzerland.')}
             </p>
             <p className="mt-3 text-xs text-gray-400 leading-relaxed max-w-sm">
-              Website photography is illustrative and does not depict Duopole farms, suppliers, warehouses or shipments.
+              {t('Website photography is illustrative and does not depict Duopole farms, suppliers, warehouses or shipments.')}
             </p>
           </div>
 
           {/* Navigation */}
           <div>
-            <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Navigation</h3>
+            <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">{t('Navigation')}</h3>
             <ul className="space-y-2">
               {([
                 ['/', 'Home'],
@@ -43,7 +45,7 @@ export default function Footer() {
               ] as [string, string][]).map(([to, label]) => (
                 <li key={to}>
                   <Link to={to} className="text-sm text-gray-300 hover:text-accent transition-colors">
-                    {label}
+                  {t(label)}
                   </Link>
                 </li>
               ))}
@@ -52,27 +54,27 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">Contact</h3>
+            <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">{t('Contact')}</h3>
             <ul className="space-y-3 text-sm text-gray-300">
               <li>
-                <span className="block text-xs text-gray-400 uppercase tracking-wider mb-0.5">Email</span>
+                <span className="block text-xs text-gray-400 uppercase tracking-wider mb-0.5">{t('Email')}</span>
                 {businessDetails.email ? (
                   <a href={`mailto:${businessDetails.email}`} className="hover:text-accent transition-colors break-all">{businessDetails.email}</a>
                 ) : (
-                  <span className="text-gray-400">Add verified business email before launch</span>
+                  <span className="text-gray-400">{t('Add verified business email before launch')}</span>
                 )}
               </li>
               <li>
-                <span className="block text-xs text-gray-400 uppercase tracking-wider mb-0.5">WhatsApp</span>
+                <span className="block text-xs text-gray-400 uppercase tracking-wider mb-0.5">{t('WhatsApp')}</span>
                 {whatsappLink ? (
                   <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="hover:text-accent transition-colors">{businessDetails.whatsappNumber}</a>
                 ) : (
-                  <span className="text-gray-400">Add verified business number before launch</span>
+                  <span className="text-gray-400">{t('Add verified business number before launch')}</span>
                 )}
               </li>
               <li>
-                <span className="block text-xs text-gray-400 uppercase tracking-wider mb-0.5">Location</span>
-                <span>{businessDetails.publicLocation} — market-development focus</span>
+                <span className="block text-xs text-gray-400 uppercase tracking-wider mb-0.5">{t('Location')}</span>
+                <span>{businessDetails.publicLocation} — {t('market-development focus')}</span>
               </li>
             </ul>
           </div>
@@ -81,11 +83,10 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-600 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-gray-400">© {year} Duopole Fresh Imports. All rights reserved.</p>
           <Link to="/privacy" className="text-xs text-gray-400 hover:text-accent transition-colors">
-            Privacy Policy
+            {t('Privacy Policy')}
           </Link>
         </div>
       </div>
     </footer>
   )
 }
-

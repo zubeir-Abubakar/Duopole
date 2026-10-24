@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { whatsappHref } from '../config/business'
+import { useLanguage } from '../i18n'
 
 export default function WhatsAppButton() {
+  const { translate: t } = useLanguage()
   const href = whatsappHref()
   const className = 'fixed bottom-6 right-6 z-50 bg-green-600 hover:bg-green-700 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-transform hover:scale-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-400 focus-visible:ring-offset-2'
   const icon = (
@@ -12,14 +14,13 @@ export default function WhatsAppButton() {
 
   return (
     href ? (
-      <a href={href} target="_blank" rel="noopener noreferrer" aria-label="Contact us on WhatsApp" title="Contact us on WhatsApp" className={className}>
+      <a href={href} target="_blank" rel="noopener noreferrer" aria-label={t('Contact us on WhatsApp')} title={t('Contact us on WhatsApp')} className={className}>
         {icon}
       </a>
     ) : (
-      <Link to="/contact" aria-label="WhatsApp number not yet configured; view contact options" title="WhatsApp contact details will be added before launch" className={className}>
+      <Link to="/contact" aria-label={t('WhatsApp number not yet configured; view contact options')} title={t('WhatsApp contact details will be added before launch')} className={className}>
         {icon}
       </Link>
     )
   )
 }
-
